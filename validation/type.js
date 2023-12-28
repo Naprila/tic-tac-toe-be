@@ -12,6 +12,6 @@ export const signInSchema = z.object({
 });
 
 export const sendRequestSchema = z.object({
-  sender_email: z.string.email.max(20),
-  oppEmail: z.string.email.max(20),
+  sender_email: z.string.email(20),
+  oppEmail: z.string.email(20),
 });

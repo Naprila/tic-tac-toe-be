@@ -17,7 +17,7 @@ const app = express();
 const isDev = app.settings.env === "development";
 const URL = isDev
   ? "http://localhost:3000"
-  : "https://tic-tac-toe-fe.vercel.app/";
+  : "https://tic-tac-toe-fe.vercel.app";
 app.use(cors({ origin: URL }));
 
 app.use(bodyParser.urlencoded({ extended: true }));

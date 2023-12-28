@@ -3,22 +3,30 @@ import http from "http";
 import { WebSocketServer } from "ws";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
+import * as dotenv from "dotenv";
 import User from "./models/user.js";
 import Game from "./models/game.js";
 import cors from "cors";
 import {
-  sendRequestScheam,
   sendRequestSchema,
   signInSchema,
   signUpSchema,
 } from "./validation/type.js";
 
 const app = express();
-const server = http.createServer(app);
-const wss = new WebSocketServer({ server });
+
+const URL = isDev
+  ? "http://localhost:3000"
+  : "https://tic-tac-toe-fe.vercel.app/";
+app.use(cors({ origin: URL }));
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(cors());
+dotenv.config();
+
+const server = http.createServer(app);
+const wss = new WebSocketServer({ server, cors: { origin: URL } });
+const PORT = process.env.PORT || 3000;
 
 const users = {};
 
@@ -72,7 +80,7 @@ app.get("/health", (req, res) => {
 });
 
 mongoose
-  .connect("mongodb://localhost:27017/tictac")
+  .connect(process.env.MONGODB_URL)
   .then((e) => {
     console.log("DB connected successfully");
   })
@@ -303,4 +311,4 @@ function uuidv4() {
   });
 }
 
-server.listen(3000, () => console.log("Server is up"));
+server.listen(PORT, () => console.log("Server is up"));

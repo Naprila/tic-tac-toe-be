@@ -12,6 +12,6 @@ export const signInSchema = z.object({
 });
 
 export const sendRequestSchema = z.object({
-  sender_email: z.string.email(),
-  oppEmail: z.string.email(),
+  sender_email: z.string().email("This is not a valid email."),
+  oppEmail: z.string().email("This is not a valid email."),
 });
